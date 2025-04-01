@@ -1,0 +1,28 @@
+name: Assign Contributor Badge
+
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  assign_badge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for Badge Request
+        if: contains(github.event.issue.title, 'Badge Request')
+        run: |
+          echo "Processing badge request for ${{ github.actor }}"
+
+      - name: Assign Badge
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issueTitle = context.payload.issue.title;
+            if (issueTitle.includes('Beginner')) {
+              console.log("Assigning Beginner Badge");
+            } else if (issueTitle.includes('Intermediate')) {
+              console.log("Assigning Intermediate Badge");
+            } else if (issueTitle.includes('Master')) {
+              console.log("Assigning Master Badge");
+            }
